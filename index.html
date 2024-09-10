@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tetris Game</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 
 <body>
@@ -20,6 +21,12 @@
             <input type="range" id="speed-slider" min="100" max="1000" value="500" step="100">
             <span id="speed-value">500</span>
         </div>
+    </div>
+    <div id="buttons">
+        <button id="left-btn"><i class="fas fa-arrow-left"></i></button>
+        <button id="right-btn"><i class="fas fa-arrow-right"></button>
+        <button id="down-btn"><i class="fas fa-arrow-down"></button>
+        <button id="up-btn"><i class="fas fa-sync-alt"></button>
     </div>
 
     <script src="./tetris.js"></script>

@@ -265,6 +265,8 @@ class Game {
         this.speedValue = document.getElementById('speed-value');
         this.currentSpeed = 500;
         this.speed();
+        // Bind touch controls (mobile)
+        this.bingTouchControls();
     }
 
     // Speed adjuster
@@ -284,6 +286,26 @@ class Game {
             }
         })
     }
+
+    // Bind touch controls
+    bingTouchControls() {
+        document.getElementById('left-btn').addEventListener('touchstart', (event) => {
+            event.preventDefault();
+            this.currentPiece.moveLeft();
+        });
+        document.getElementById('right-btn').addEventListener('touchstart', (event) => {
+            event.preventDefault();
+            this.currentPiece.moveRight();
+        })
+        document.getElementById('down-btn').addEventListener('touchstart', (event) => {
+            event.preventDefault();
+            this.currentPiece.moveDown();
+        })
+        document.getElementById('up-btn').addEventListener('touchstart', (event) => {
+            event.preventDefault();
+            this.currentPiece.rotate();
+        })
+    } 
 
     // Bind keys for movement
     bindKeys() {
