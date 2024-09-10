@@ -146,7 +146,7 @@ class Piece {
         this.color = color;                 // Random color
         this.grid = grid;                   // Size of the grid
         this.context = context;             // Canvas context to draw on 
-        this.position = { x: Math.floor(grid.columns / 2) -1, y: -1 };     // Starting position, top-center
+        this.position = { x: Math.floor(grid.columns / 2) - 1, y: -1 };     // Starting position, top-center
         this.blockSize = grid.blockSize;    // Block size in pixels
         // Matrix 2D Array
         this.gridMatrix = gridMatrix;
@@ -260,10 +260,33 @@ class Game {
         this.gameInterval = null;
         // Matrix 2D Array
         this.gridMatrix = gridMatrix;
+        // Speed adjuster
+        this.speedSlider = document.getElementById('speed-slider');
+        this.speedValue = document.getElementById('speed-value');
+        this.currentSpeed = 500;
+        this.speed();
     }
 
-     // Bind keys for movement
-     bindKeys() {
+    // Speed adjuster
+    speed() {
+        this.speedSlider.min = 100;
+        this.speedSlider.max = 1000;
+        this.speedSlider.step = 100;
+        this.speedSlider.value = this.currentSpeed;
+        this.speedValue.textContent = this.currentSpeed;
+
+        this.speedSlider.addEventListener('input', (event) => {
+            this.currentSpeed = parseInt(event.target.value);
+            this.speedValue.textContent = this.currentSpeed;
+            if (this.gameInterval) {
+                clearInterval(this.gameInterval);
+                this.startGame();
+            }
+        })
+    }
+
+    // Bind keys for movement
+    bindKeys() {
         document.addEventListener('keydown', (event) => {
             if (event.key === 'ArrowLeft') {
                 this.currentPiece.moveLeft();
@@ -277,12 +300,12 @@ class Game {
 
         });
     }
-  
+
     // Draw grid lines (guides)
     drawGridLines() {
         this.context.strokeStyle = '#444';
         this.context.lineWidth = 0.5;
-    
+
         // Draw vertical
         for (let x = 0; x <= canvas.width; x += grid.blockSize) {
             this.context.beginPath();                // Start a new path
@@ -290,7 +313,7 @@ class Game {
             this.context.lineTo(x, canvas.height);   // Draw a line to the end point
             this.context.stroke();                    // Render path
         }
-    
+
         // Draw horizontal
         for (let y = 0; y <= canvas.height; y += grid.blockSize) {
             this.context.beginPath();
@@ -299,7 +322,7 @@ class Game {
             this.context.stroke();
         }
     }
-    
+
 
     // Spawn a new piece
     spawnPiece() {
@@ -314,9 +337,9 @@ class Game {
     // Clear a full line
     clearLine(row) {
         // Remove the full line
-        this.gridMatrix.splice(row, 1); 
+        this.gridMatrix.splice(row, 1);
         // Add a new empty line at the top
-        this.gridMatrix.unshift(new Array(this.grid.columns).fill(0)); 
+        this.gridMatrix.unshift(new Array(this.grid.columns).fill(0));
     }
 
     // Clear lines and update score
@@ -342,7 +365,7 @@ class Game {
     updateScore(linesCleared) {
         const points = linesCleared * 100;
         this.score += points;
-        
+
         const scoreElement = document.getElementById('score');
         scoreElement.textContent = `Score: ${this.score}`;
     }
@@ -410,7 +433,7 @@ class Game {
         this.bindKeys()
         this.context.clearRect(0, 0, canvas.width, canvas.height);
         this.spawnPiece();
-        this.gameInterval = setInterval(() => this.gameLoop(), 300);
+        this.gameInterval = setInterval(() => this.gameLoop(), this.currentSpeed);
 
     }
 }

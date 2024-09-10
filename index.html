@@ -1,18 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Tetris Game</title>
-        <link rel="stylesheet" href="styles.css">
-    </head>
-    <body>
-        <div id="score-container">
-            <span id="score">Score: 0</span>
-        </div>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tetris Game</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+    <div id="score-container">
+        <span id="score">Score: 0</span>
+    </div>
+    <div class="tetris-container">
         <canvas id="tetris" width="300" height="600"></canvas>
-        
-        <script src="./tetris.js"></script>
-        
-    </body>
+        <div id="speed-slider">
+            <label for="speedSlider">Speed:</label>
+            <input type="range" id="speed-slider" min="100" max="1000" value="500" step="100">
+            <span id="speed-value">500</span>
+        </div>
+    </div>
+
+    <script src="./tetris.js"></script>
+
+</body>
+
 </html>
