@@ -277,26 +277,7 @@ class Game {
 
         });
     }
-    /*
-    // Handle touch controls
-    handleTouchStart(event) {
-        event.preventDefault() // Prevent scolling on touch
-
-        const touch = event.touches[0];
-        const x = touch.clientX;
-        const y = touch.clientY;
-
-        if (x < canvas.width / 3) {
-            this.currentPiece.moveLeft();
-        } else if ( x > 2 * canvas.width / 3) {
-            this.currentPiece.moveRight();
-        } else if (y > 2 * canvas.height / 3) {
-            this.currentPiece.moveDown();
-        } else if (y < canvas.height / 3) {
-            this.currentPiece.rotate();
-        }
-    }
-    */
+  
     // Draw grid lines (guides)
     drawGridLines() {
         this.context.strokeStyle = '#444';
