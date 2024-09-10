@@ -277,7 +277,7 @@ class Game {
 
         });
     }
-
+    /*
     // Handle touch controls
     handleTouchStart(event) {
         event.preventDefault() // Prevent scolling on touch
@@ -296,7 +296,7 @@ class Game {
             this.currentPiece.rotate();
         }
     }
-
+    */
     // Draw grid lines (guides)
     drawGridLines() {
         this.context.strokeStyle = '#444';
@@ -427,7 +427,6 @@ class Game {
     startGame() {
         console.log('Game Started!')
         this.bindKeys()
-        this.handleTouchStart();
         this.context.clearRect(0, 0, canvas.width, canvas.height);
         this.spawnPiece();
         this.gameInterval = setInterval(() => this.gameLoop(), 300);
