@@ -1,0 +1,35 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #000;
+
+}
+
+canvas {
+    background-color: #111;
+    border: 2px solid #fff;
+}
+
+#score-container {
+    position: absolute; /* Position it relative to the canvas container */
+    top: 5px; /* Distance from the top of the container */
+    left: 50%; /* Center horizontally */
+    transform: translateX(-50%); /* Center horizontally */
+    z-index: 10; /* Ensure it appears above the canvas */
+    text-align: center; /* Center text inside the container */
+}
+
+/* Style for the score text */
+#score {
+    font-size: 36px; /* Size of the font */
+    color: white; /* Text color */
+    font-family: 'Arial', sans-serif; /* Font family */
+    font-weight: bold; /* Make the text bold */
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background for readability */
+    padding: 10px; /* Padding around the text */
+    border-radius: 5px; /* Rounded corners */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.5); /* Shadow for a slightly lifted effect */
+}
