@@ -267,6 +267,25 @@ class Game {
         this.speed();
         // Bind touch controls (mobile)
         this.bingTouchControls();
+        // Restart game (without reload page)
+        this.restartGame();
+    }
+
+    // Empty the matrix
+    emptyMatrix(rows, columns) {
+        return Array.from({ length: rows }, () => Array(columns).fill(0));
+    }
+
+    // Restart game (without reload page)
+    restartGame() {
+        document.getElementById('restart-btn').addEventListener('click', () => {
+            clearInterval(this.gameInterval);
+            this.score = 0;
+            this.currentPiece = null;
+            this.gridMatrix = this.emptyMatrix(this.grid.rows, this.grid.columns);
+            this.spawnPiece();
+            this.gameInterval = setInterval(() => this.gameLoop(), this.currentSpeed);
+        })
     }
 
     // Speed adjuster
@@ -305,7 +324,7 @@ class Game {
             event.preventDefault();
             this.currentPiece.rotate();
         })
-    } 
+    }
 
     // Bind keys for movement
     bindKeys() {

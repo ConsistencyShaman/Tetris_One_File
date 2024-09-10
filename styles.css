@@ -10,25 +10,39 @@ body {
 
 /* ------------------------------------------- */
 #score-container {
-    position: absolute; /* Position it relative to the canvas container */
-    top: 5px; /* Distance from the top of the container */
-    left: 50%; /* Center horizontally */
-    transform: translateX(-50%); /* Center horizontally */
-    z-index: 10; /* Ensure it appears above the canvas */
-    text-align: center; /* Center text inside the container */
+    position: absolute;
+    /* Position it relative to the canvas container */
+    top: 5px;
+    /* Distance from the top of the container */
+    left: 50%;
+    /* Center horizontally */
+    transform: translateX(-50%);
+    /* Center horizontally */
+    z-index: 10;
+    /* Ensure it appears above the canvas */
+    text-align: center;
+    /* Center text inside the container */
     border: 2px;
 }
 
 /* Style for the score text */
 #score {
-    font-size: 36px; /* Size of the font */
-    color: white; /* Text color */
-    font-family: 'Arial', sans-serif; /* Font family */
-    font-weight: bold; /* Make the text bold */
-    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background for readability */
-    padding: 10px; /* Padding around the text */
-    border-radius: 5px; /* Rounded corners */
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.5); /* Shadow for a slightly lifted effect */
+    font-size: 36px;
+    /* Size of the font */
+    color: white;
+    /* Text color */
+    font-family: 'Arial', sans-serif;
+    /* Font family */
+    font-weight: bold;
+    /* Make the text bold */
+    background-color: rgba(0, 0, 0, 0.5);
+    /* Semi-transparent background for readability */
+    padding: 10px;
+    /* Padding around the text */
+    border-radius: 5px;
+    /* Rounded corners */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.5);
+    /* Shadow for a slightly lifted effect */
 }
 
 .tetris-container {
@@ -48,130 +62,214 @@ canvas {
 
 /* Basic Reset for the slider */
 input[type="range"] {
-    -webkit-appearance: none; /* Remove default styling for WebKit browsers */
-    appearance: none; /* Remove default styling for other browsers */
-    width: 100%; /* Full width of the container */
-    height: 8px; /* Track height */
-    background: #ddd; /* Light gray background for the track */
-    border-radius: 5px; /* Rounded corners for the track */
-    outline: none; /* Remove outline */
-    padding: 0; /* Remove padding */
-    margin: 0; /* Remove margin */
+    -webkit-appearance: none;
+    /* Remove default styling for WebKit browsers */
+    appearance: none;
+    /* Remove default styling for other browsers */
+    width: 100%;
+    /* Full width of the container */
+    height: 8px;
+    /* Track height */
+    background: #ddd;
+    /* Light gray background for the track */
+    border-radius: 5px;
+    /* Rounded corners for the track */
+    outline: none;
+    /* Remove outline */
+    padding: 0;
+    /* Remove padding */
+    margin: 0;
+    /* Remove margin */
 }
 
 /* Slider thumb styles */
 input[type="range"]::-webkit-slider-thumb {
-    -webkit-appearance: none; /* Remove default styling for WebKit browsers */
-    appearance: none; /* Remove default styling for other browsers */
-    width: 20px; /* Thumb width */
-    height: 20px; /* Thumb height */
-    background: #fff; /* White background for the thumb */
-    border: 2px solid #aaa; /* Border color for the thumb */
-    border-radius: 50%; /* Round shape for the thumb */
-    cursor: pointer; /* Pointer cursor on hover */
-    box-shadow: 0 0 2px rgba(0, 0, 0, 0.3); /* Slight shadow for depth */
+    -webkit-appearance: none;
+    /* Remove default styling for WebKit browsers */
+    appearance: none;
+    /* Remove default styling for other browsers */
+    width: 20px;
+    /* Thumb width */
+    height: 20px;
+    /* Thumb height */
+    background: #fff;
+    /* White background for the thumb */
+    border: 2px solid #aaa;
+    /* Border color for the thumb */
+    border-radius: 50%;
+    /* Round shape for the thumb */
+    cursor: pointer;
+    /* Pointer cursor on hover */
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
+    /* Slight shadow for depth */
 }
 
 /* Slider thumb styles for Firefox */
 input[type="range"]::-moz-range-thumb {
-    width: 20px; /* Thumb width */
-    height: 20px; /* Thumb height */
-    background: #fff; /* White background for the thumb */
-    border: 2px solid #aaa; /* Border color for the thumb */
-    border-radius: 50%; /* Round shape for the thumb */
-    cursor: pointer; /* Pointer cursor on hover */
-    box-shadow: 0 0 2px rgba(0, 0, 0, 0.3); /* Slight shadow for depth */
+    width: 20px;
+    /* Thumb width */
+    height: 20px;
+    /* Thumb height */
+    background: #fff;
+    /* White background for the thumb */
+    border: 2px solid #aaa;
+    /* Border color for the thumb */
+    border-radius: 50%;
+    /* Round shape for the thumb */
+    cursor: pointer;
+    /* Pointer cursor on hover */
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
+    /* Slight shadow for depth */
 }
 
 /* Slider thumb styles for Internet Explorer */
 input[type="range"]::-ms-thumb {
-    width: 20px; /* Thumb width */
-    height: 20px; /* Thumb height */
-    background: #fff; /* White background for the thumb */
-    border: 2px solid #aaa; /* Border color for the thumb */
-    border-radius: 50%; /* Round shape for the thumb */
-    cursor: pointer; /* Pointer cursor on hover */
-    box-shadow: 0 0 2px rgba(0, 0, 0, 0.3); /* Slight shadow for depth */
+    width: 20px;
+    /* Thumb width */
+    height: 20px;
+    /* Thumb height */
+    background: #fff;
+    /* White background for the thumb */
+    border: 2px solid #aaa;
+    /* Border color for the thumb */
+    border-radius: 50%;
+    /* Round shape for the thumb */
+    cursor: pointer;
+    /* Pointer cursor on hover */
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
+    /* Slight shadow for depth */
 }
 
 /* Slider track styles */
 input[type="range"]::-webkit-slider-runnable-track {
-    height: 8px; /* Track height */
-    background: #ddd; /* Light gray background for the track */
-    border-radius: 5px; /* Rounded corners for the track */
+    height: 8px;
+    /* Track height */
+    background: #ddd;
+    /* Light gray background for the track */
+    border-radius: 5px;
+    /* Rounded corners for the track */
 }
 
 /* Slider track styles for Firefox */
 input[type="range"]::-moz-range-track {
-    height: 8px; /* Track height */
-    background: #ddd; /* Light gray background for the track */
-    border-radius: 5px; /* Rounded corners for the track */
+    height: 8px;
+    /* Track height */
+    background: #ddd;
+    /* Light gray background for the track */
+    border-radius: 5px;
+    /* Rounded corners for the track */
 }
 
 /* Slider track styles for Internet Explorer */
 input[type="range"]::-ms-track {
-    height: 8px; /* Track height */
-    background: #ddd; /* Light gray background for the track */
-    border-radius: 5px; /* Rounded corners for the track */
-    border-color: transparent; /* Remove border color */
-    color: transparent; /* Remove track color */
+    height: 8px;
+    /* Track height */
+    background: #ddd;
+    /* Light gray background for the track */
+    border-radius: 5px;
+    /* Rounded corners for the track */
+    border-color: transparent;
+    /* Remove border color */
+    color: transparent;
+    /* Remove track color */
 }
 
 /* Focus style */
 input[type="range"]:focus {
-    outline: none; /* Remove default focus outline */
+    outline: none;
+    /* Remove default focus outline */
 }
 
 /* slider position */
 #speed-slider {
     display: flex;
-    flex-direction: row; /* Stack slider and value vertically */
-    margin-left: 20px; /* Space between canvas and slider */
-    align-items: center; /* Center align slider and value horizontally */
+    flex-direction: row;
+    /* Stack slider and value vertically */
+
+    align-items: center;
+    /* Center align slider and value horizontally */
 }
 
 #speed-slider label {
-    color: white; /* Label color */
-    font-size: 18px; /* Label font size */
-    font-family: 'Arial', sans-serif; /* Font family */
-    margin-bottom: 10px; /* Space between label and slider */
+    color: white;
+    /* Label color */
+    font-size: 18px;
+    /* Label font size */
+    font-family: 'Arial', sans-serif;
+    /* Font family */
+    margin-bottom: 10px;
+    /* Space between label and slider */
+    padding-right: 5px;
 }
 
 #speed-value {
-    font-size: 18px; /* Size of the font */
-    color: white; /* Text color */
-    font-family: 'Arial', sans-serif; /* Font family */
-    font-weight: bold; /* Make the text bold */
-    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background for readability */
-    padding: 5px 10px; /* Padding around the text */
-    border-radius: 5px; /* Rounded corners */
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.5); /* Shadow for a slightly lifted effect */
-    margin-top: 10px; /* Space between slider and value */
+    font-size: 18px;
+    /* Size of the font */
+    color: white;
+    /* Text color */
+    font-family: 'Arial', sans-serif;
+    /* Font family */
+    font-weight: bold;
+    /* Make the text bold */
+    background-color: rgba(0, 0, 0, 0.5);
+    /* Semi-transparent background for readability */
+    padding: 5px 10px;
+    /* Padding around the text */
+    border-radius: 5px;
+    /* Rounded corners */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.5);
+    /* Shadow for a slightly lifted effect */
+    margin-top: 10px;
+    /* Space between slider and value */
+}
+
+/* Restat button */
+#restart-btn {
+    background-color: #f00;
+    color: #fff;
+    font-size: 20px;
+    width: 35px;
+    /* Adjust width to fit text and icon */
+    height: 30px;
+    /* Adjust height to fit text and icon */
+    padding: 10px 10px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#restart-btn:hover {
+    background-color: #d00;
 }
 
 /* Touch buttons (mobile) */
 #buttons {
-    position: fixed;
-    bottom: 25%;
-    left: 100%;
-    transform: translateX(-50%);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    width: 200px;
+    display: none; /* Hide controls on wider screens, non mobile/tablet */
 }
 
-#buttons button {
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid #159;
-    border-radius: 50%;
-    font-size: 24px;
-    cursor: pointer;
-    transition: background-color 0.3s, border-color 0.3s;
-}
+@media only screen and (max-width: 768px) {
+    #buttons {
+        position: fixed;
+        bottom: 25%;
+        left: 100%;
+        transform: translateX(-50%);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        width: 200px;
+    }
 
-/* -------------------- Media queries ----------------- */
+    #buttons button {
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid #159;
+        border-radius: 50%;
+        font-size: 24px;
+        cursor: pointer;
+        transition: background-color 0.3s, border-color 0.3s;
+    }
+}
