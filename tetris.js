@@ -265,6 +265,8 @@ class Game {
         this.speedValue = document.getElementById('speed-value');
         this.currentSpeed = 500;
         this.speed();
+        // Bind keys controls
+        this.bindkeys();
         // Bind touch controls (mobile)
         this.bingTouchControls();
         // Restart game (without reload page)
@@ -275,19 +277,7 @@ class Game {
     emptyMatrix(rows, columns) {
         return Array.from({ length: rows }, () => Array(columns).fill(0));
     }
-
-    // Restart game (without reload page)
-    restartGame() {
-        document.getElementById('restart-btn').addEventListener('click', () => {
-            clearInterval(this.gameInterval);
-            this.score = 0;
-            this.currentPiece = null;
-            this.gridMatrix = this.emptyMatrix(this.grid.rows, this.grid.columns);
-            this.spawnPiece();
-            this.gameInterval = setInterval(() => this.gameLoop(), this.currentSpeed);
-        })
-    }
-
+    
     // Speed adjuster
     speed() {
         this.speedSlider.min = 100;
@@ -467,11 +457,24 @@ class Game {
         this.drawFixedPieces();
         this.currentPiece.draw();
     }
+    
+    // Restart game (without reload page)
+    restartGame() {
+        document.getElementById('restart-btn').addEventListener('click', () => {
+            clearInterval(this.gameInterval);
+            this.score = 0;
+            this.currentPiece = null;
+            this.gridMatrix = this.emptyMatrix(this.grid.rows, this.grid.columns);
+            this.context.clearRect(0, 0, canvas.width, canvas.height);
+            this.spawnPiece();
+            this.gameInterval = setInterval(() => this.gameLoop(), this.currentSpeed);
+            console.log('Game Restarted!')
+        });
+    }
 
     // Start the game
     startGame() {
         console.log('Game Started!')
-        this.bindKeys()
         this.context.clearRect(0, 0, canvas.width, canvas.height);
         this.spawnPiece();
         this.gameInterval = setInterval(() => this.gameLoop(), this.currentSpeed);
