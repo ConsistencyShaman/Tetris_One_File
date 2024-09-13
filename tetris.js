@@ -137,6 +137,9 @@ canvas.width = grid.columns * grid.blockSize;
 canvas.height = grid.rows * grid.blockSize;
 // Set up Matrix
 const gridMatrix = Array.from({ length: grid.rows }, () => Array(grid.columns).fill(0));
+// Set up preview Canvas
+const previewCanvas = document.getElementById('preview-canvas');
+const previewCanvasContext = previewCanvas.getContext('2d');
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 // Piece Logic
@@ -176,6 +179,28 @@ class Piece {
                 }
             }
         }
+    }
+
+    // Draw preview
+    drawPreview(ctx, canvasSize) {
+        const scale = canvasSize / (this.shape[0].length * this.grid.blocksize);
+        ctx.scale(scale, scale);
+        ctx.fillStyle = this.color;
+
+        this.shape.forEach((row, y) => {
+            row.forEach((value, x) => {
+                if (value) {
+                    ctx.fillRect(
+                        x * this.grid.blockSize,
+                        y * this.grid.blockSize,
+                        this.grid.blockSize,
+                        this.grid.blockSize
+                    )
+                }
+            });
+        });
+        
+        ctx.scale(1 / scale, 1 / scale); // Reset scale
     }
 
     // Check movement
@@ -256,6 +281,7 @@ class Game {
         this.grid = grid;
         this.context = context;
         this.currentPiece = null;
+        this.nextPiece = null;
         this.score = 0;
         this.gameInterval = null;
         // Matrix 2D Array
@@ -265,8 +291,12 @@ class Game {
         this.speedValue = document.getElementById('speed-value');
         this.currentSpeed = 500;
         this.speed();
+        // Preview Canvas
+        this.previewCanvas = previewCanvas;
+        this.previewCanvasContext = previewCanvasContext;
+
         // Bind keys controls
-        this.bindkeys();
+        this.bindKeys();
         // Bind touch controls (mobile)
         this.bingTouchControls();
         // Restart game (without reload page)
@@ -274,10 +304,23 @@ class Game {
     }
 
     // Empty the matrix
-    emptyMatrix(rows, columns) {
-        return Array.from({ length: rows }, () => Array(columns).fill(0));
+    emptyMatrix() {
+        for (let x = 0; x < this.grid.rows; x++) {
+            for (let y = 0; y < this.grid.columns; y++) {
+                this.gridMatrix[x][y] = 0;
+            }
+        }
+        console.log('Matrix Cleared');
     }
-    
+
+    // Empty the score
+    emptyScore() {
+        this.score = 0
+
+        const scoreElement = document.getElementById('score');
+        scoreElement.textContent = `Score: ${this.score}`;
+    }
+
     // Speed adjuster
     speed() {
         this.speedSlider.min = 100;
@@ -354,10 +397,17 @@ class Game {
         }
     }
 
-
     // Spawn a new piece
     spawnPiece() {
-        this.currentPiece = new Piece(randomShape(), randomColour(), this.grid, this.context);
+        this.currentPiece = this.nextPiece || new Piece(randomShape(), randomColour(), this.grid, this.context);
+        this.nextPiece = new Piece(randomShape(), randomColour(), this.grid, this.context);
+        this.drawNextPiece()
+    }
+
+    // Draw next Piece
+    drawNextPiece() {
+        this.previewCanvasContext.clearRect(0, 0, this.previewCanvas.width, this.previewCanvas.height);
+        this.nextPiece.drawPreview(this.previewCanvasContext, this.previewCanvas.width);
     }
 
     // Check if line is full
@@ -409,9 +459,11 @@ class Game {
             this.clearLines(); // Check for completed lines, clear if true
             this.spawnPiece(); // Spawn new piece after one lands
 
+            console.log('Updated')
+
             // Check if new piece can move
             if (!this.currentPiece.canMove(0, 1)) {
-                alert('Game Over! Reload page to start again');
+                alert('Game Over!');
                 clearInterval(this.gameInterval);
                 return;
             }
@@ -457,28 +509,26 @@ class Game {
         this.drawFixedPieces();
         this.currentPiece.draw();
     }
-    
+
     // Restart game (without reload page)
     restartGame() {
         document.getElementById('restart-btn').addEventListener('click', () => {
             clearInterval(this.gameInterval);
-            this.score = 0;
+            this.emptyScore();
             this.currentPiece = null;
-            this.gridMatrix = this.emptyMatrix(this.grid.rows, this.grid.columns);
-            this.context.clearRect(0, 0, canvas.width, canvas.height);
-            this.spawnPiece();
-            this.gameInterval = setInterval(() => this.gameLoop(), this.currentSpeed);
-            console.log('Game Restarted!')
+            this.emptyMatrix()            
+
+            // Start game
+            this.startGame()
         });
     }
 
     // Start the game
     startGame() {
-        console.log('Game Started!')
         this.context.clearRect(0, 0, canvas.width, canvas.height);
         this.spawnPiece();
         this.gameInterval = setInterval(() => this.gameLoop(), this.currentSpeed);
-
+        console.log('Game Started!')
     }
 }
 
