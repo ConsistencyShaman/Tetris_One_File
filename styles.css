@@ -47,10 +47,14 @@ canvas {
 
 
 /* Responsive styling for smaller screens */
-@media (max-width: 600px) {
+@media  (max-height: 700px) {
     #preview-container {
         width: 80px; /* Reduce the width on smaller screens */
         height: 80px; /* Reduce the height on smaller screens */
+    }
+    .tetris-container {
+        width: 300px;
+        height: 100vh;
     }
 }
 
@@ -63,10 +67,10 @@ canvas {
 
 /* ------------------------------------------- */
 #score-container {
+    margin-top: 5px;
     margin-bottom: 5px;
     z-index: 10;
     text-align: center;
-    border: 2px;
 }
 
 /* Style for the score text */
@@ -281,13 +285,14 @@ input[type="range"]:focus {
 
 @media only screen and (max-width: 768px) {
     #buttons {
-        position: fixed;
-        bottom: 25%;
-        left: 100%;
+        position: absolute;
+        top: 75%;
+        left: 80%;
         transform: translateX(-50%);
         display: flex;
         flex-direction: column;
         justify-content: space-around;
+        align-items: center;
         width: 200px;
     }
 
@@ -297,10 +302,20 @@ input[type="range"]:focus {
         display: flex;
         align-items: center;
         justify-content: center;
-        border: 1px solid #159;
+        border: 1px solid rgba(0, 128, 255, 0.24);
         border-radius: 50%;
         font-size: 24px;
         cursor: pointer;
         transition: background-color 0.3s, border-color 0.3s;
+        background-color: #bdbdbd66;
+    }
+
+    #buttons button i {
+        color: rgba(255, 255, 255, 0.918)
+    }
+
+    #horizontal-btns {
+        display: flex;
+        flex-direction: row;
     }
 }
