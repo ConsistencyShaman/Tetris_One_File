@@ -11,7 +11,7 @@
 
 <body>
     <div id="game-container">
-        
+
         <div class="tetris-container">
             <div id="score-container">
                 <span id="score">Score: 0</span>
@@ -25,14 +25,17 @@
             </div>
         </div>
         <div id="preview-container">
-        <canvas id="preview-canvas" width="100" height="100"></canvas>
+            <canvas id="preview-canvas" width="100" height="100"></canvas>
         </div>
 
         <div id="buttons">
-            <button id="left-btn"><i class="fas fa-arrow-left"></i></button>
-            <button id="right-btn"><i class="fas fa-arrow-right"></i></button>
-            <button id="down-btn"><i class="fas fa-arrow-down"></i></button>
             <button id="up-btn"><i class="fas fa-sync-alt"></i></button>
+            <div id="horizontal-btns">
+                <button id="left-btn"><i class="fas fa-arrow-left"></i></button>
+                <button id="down-btn"><i class="fas fa-arrow-down"></i></button>
+                <button id="right-btn"><i class="fas fa-arrow-right"></i></button>
+            </div>
+
         </div>
 
     </div>
