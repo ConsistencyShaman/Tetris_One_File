@@ -47,7 +47,7 @@ canvas {
 
 
 /* Responsive styling for smaller screens */
-@media  (max-height: 700px) {
+@media  (max-height: 715px) {
     #preview-container {
         width: 80px; /* Reduce the width on smaller screens */
         height: 80px; /* Reduce the height on smaller screens */
