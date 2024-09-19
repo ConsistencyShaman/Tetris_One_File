@@ -301,6 +301,22 @@ class Game {
         this.bingTouchControls();
         // Restart game (without reload page)
         this.restartGame();
+        // Fullscreen Button
+        this.fullscreen();
+    }
+
+    fullscreen() {
+        const fullscreen = document.getElementById('fullscreen-btn');
+        const gameContainer = document.getElementById('game-container');
+        fullscreen.addEventListener('click', (event) => {
+            if (document.fullscreenElement) {
+                // If there's a fullscreen element, exit fullscreen
+                document.exitFullscreen();
+                return;
+            }
+            // Make the game-container div fullscreen
+            gameContainer.requestFullscreen();
+        });
     }
 
     // Empty the matrix
@@ -463,8 +479,9 @@ class Game {
 
             // Check if new piece can move
             if (!this.currentPiece.canMove(0, 1)) {
-                alert('Game Over!');
+                document.getElementById('game-over').style.visibility = 'visible'
                 clearInterval(this.gameInterval);
+                console.log('Cleared?')
                 return;
             }
         }
@@ -525,6 +542,7 @@ class Game {
 
     // Start the game
     startGame() {
+        document.getElementById('game-over').style.visibility = 'hidden';
         this.context.clearRect(0, 0, canvas.width, canvas.height);
         this.spawnPiece();
         this.gameInterval = setInterval(() => this.gameLoop(), this.currentSpeed);

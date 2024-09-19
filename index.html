@@ -18,6 +18,7 @@
             </div>
             <canvas id="tetris" width="300" height="600"></canvas>
             <div id="speed">
+                <button id="fullscreen-btn"><i class="fas fa-expand"></i></button>
                 <label for="speedSlider">Speed:</label>
                 <input type="range" id="speed-slider" min="100" max="1000" value="500" step="100">
                 <span id="speed-value">500</span>
@@ -36,6 +37,10 @@
                 <button id="right-btn"><i class="fas fa-arrow-right"></i></button>
             </div>
 
+        </div>
+
+        <div id="game-over" class="hidden">
+            <h1>Game Over!</h1>
         </div>
 
     </div>
