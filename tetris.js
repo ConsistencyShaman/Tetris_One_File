@@ -309,13 +309,28 @@ class Game {
         const fullscreen = document.getElementById('fullscreen-btn');
         const gameContainer = document.getElementById('game-container');
         fullscreen.addEventListener('click', (event) => {
+            // iOS fullscreen? 
+            if (!gameContainer) return;
+            if (gameContainer.requestFullscreen) {
+                gameContainer.requestFullscreen();
+            } else if (gameContainer.webkitRequestFullscreen) {
+                gameContainer.webkitRequestFullscreen();
+            } else if (gameContainer.mozRequestFullScreen) {
+                gameContainer.mozRequestFullScreen(); // Careful to the capital S
+            } else if (gameContainer.msRequestFullscreen) {
+                gameContainer.msRequestFullscreen();
+            } else if (gameContainer.webkitEnterFullscreen) {
+                gameContainer.webkitEnterFullscreen(); // Magic is here for iOS
+            }
+            /*
+            // Other devices fullscreen
             if (document.fullscreenElement) {
                 // If there's a fullscreen element, exit fullscreen
                 document.exitFullscreen();
                 return;
             }
             // Make the game-container div fullscreen
-            gameContainer.requestFullscreen();
+            gameContainer.requestFullscreen();*/
         });
     }
 
