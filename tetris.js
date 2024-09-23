@@ -280,8 +280,13 @@ class Game {
     constructor(grid, context) {
         this.grid = grid;
         this.context = context;
+        // Preview Canvas
+        this.previewCanvas = previewCanvas;
+        this.previewCanvasContext = previewCanvasContext;
+        // Piece
         this.currentPiece = null;
         this.nextPiece = null;
+        // State
         this.score = 0;
         this.gameInterval = null;
         // Matrix 2D Array
@@ -291,67 +296,31 @@ class Game {
         this.speedValue = document.getElementById('speed-value');
         this.currentSpeed = 500;
         this.speed();
-        // Preview Canvas
-        this.previewCanvas = previewCanvas;
-        this.previewCanvasContext = previewCanvasContext;
-
         // Bind keys controls
         this.bindKeys();
         // Bind touch controls (mobile)
-        this.bingTouchControls();
+        this.bindTouchControls();
         // Restart game (without reload page)
         this.restartGame();
         // Fullscreen Button
         this.fullscreen();
     }
-
+    // -----------------------------------------------------------------
+    // Controls
+    // Fullscreen btn
     fullscreen() {
         const fullscreen = document.getElementById('fullscreen-btn');
         const gameContainer = document.getElementById('game-container');
         fullscreen.addEventListener('click', (event) => {
-            // iOS fullscreen? 
-            if (!gameContainer) return;
-            if (gameContainer.requestFullscreen) {
-                gameContainer.requestFullscreen();
-            } else if (gameContainer.webkitRequestFullscreen) {
-                gameContainer.webkitRequestFullscreen();
-            } else if (gameContainer.mozRequestFullScreen) {
-                gameContainer.mozRequestFullScreen(); // Careful to the capital S
-            } else if (gameContainer.msRequestFullscreen) {
-                gameContainer.msRequestFullscreen();
-            } else if (gameContainer.webkitEnterFullscreen) {
-                gameContainer.webkitEnterFullscreen(); // Magic is here for iOS
-            }
-            /*
-            // Other devices fullscreen
             if (document.fullscreenElement) {
                 // If there's a fullscreen element, exit fullscreen
                 document.exitFullscreen();
                 return;
             }
             // Make the game-container div fullscreen
-            gameContainer.requestFullscreen();*/
+            gameContainer.requestFullscreen();
         });
     }
-
-    // Empty the matrix
-    emptyMatrix() {
-        for (let x = 0; x < this.grid.rows; x++) {
-            for (let y = 0; y < this.grid.columns; y++) {
-                this.gridMatrix[x][y] = 0;
-            }
-        }
-        console.log('Matrix Cleared');
-    }
-
-    // Empty the score
-    emptyScore() {
-        this.score = 0
-
-        const scoreElement = document.getElementById('score');
-        scoreElement.textContent = `Score: ${this.score}`;
-    }
-
     // Speed adjuster
     speed() {
         this.speedSlider.min = 100;
@@ -369,9 +338,8 @@ class Game {
             }
         })
     }
-
     // Bind touch controls
-    bingTouchControls() {
+    bindTouchControls() {
         document.getElementById('left-btn').addEventListener('touchstart', (event) => {
             event.preventDefault();
             this.currentPiece.moveLeft();
@@ -389,7 +357,6 @@ class Game {
             this.currentPiece.rotate();
         })
     }
-
     // Bind keys for movement
     bindKeys() {
         document.addEventListener('keydown', (event) => {
@@ -405,7 +372,20 @@ class Game {
 
         });
     }
+    // Restart game (without reload page)
+    restartGame() {
+        document.getElementById('restart-btn').addEventListener('click', () => {
+            clearInterval(this.gameInterval);
+            this.emptyScore();
+            this.currentPiece = null;
+            this.emptyMatrix()
 
+            // Start game
+            this.startGame()
+        });
+    }
+    // -----------------------------------------------------------------
+    // Renderer methods
     // Draw grid lines (guides)
     drawGridLines() {
         this.context.strokeStyle = '#444';
@@ -416,7 +396,7 @@ class Game {
             this.context.beginPath();                // Start a new path
             this.context.moveTo(x, 0);               // Move to the start point
             this.context.lineTo(x, canvas.height);   // Draw a line to the end point
-            this.context.stroke();                    // Render path
+            this.context.stroke();                   // Render path
         }
 
         // Draw horizontal
@@ -427,81 +407,17 @@ class Game {
             this.context.stroke();
         }
     }
-
     // Spawn a new piece
     spawnPiece() {
         this.currentPiece = this.nextPiece || new Piece(randomShape(), randomColour(), this.grid, this.context);
         this.nextPiece = new Piece(randomShape(), randomColour(), this.grid, this.context);
         this.drawNextPiece()
     }
-
     // Draw next Piece
     drawNextPiece() {
         this.previewCanvasContext.clearRect(0, 0, this.previewCanvas.width, this.previewCanvas.height);
         this.nextPiece.drawPreview(this.previewCanvasContext, this.previewCanvas.width);
     }
-
-    // Check if line is full
-    isLineFull(row) {
-        return this.gridMatrix[row].every(cell => cell !== 0);
-    }
-
-    // Clear a full line
-    clearLine(row) {
-        // Remove the full line
-        this.gridMatrix.splice(row, 1);
-        // Add a new empty line at the top
-        this.gridMatrix.unshift(new Array(this.grid.columns).fill(0));
-    }
-
-    // Clear lines and update score
-    clearLines() {
-        let linesCleared = 0;
-
-        // Detect and clear full lines
-        for (let row = this.grid.rows - 1; row >= 0; row--) {
-            if (this.isLineFull(row)) {
-                this.clearLine(row);
-                linesCleared++;
-                row++ // Recheck the current row after clearing
-            }
-        }
-
-        // Update score
-        if (linesCleared > 0) {
-            this.updateScore(linesCleared);
-        }
-    }
-
-    // Update game score
-    updateScore(linesCleared) {
-        const points = linesCleared * 100;
-        this.score += points;
-
-        const scoreElement = document.getElementById('score');
-        scoreElement.textContent = `Score: ${this.score}`;
-    }
-
-    // Update game state
-    update() {
-        // Handle piece movement, collision, stack
-        if (!this.currentPiece.moveDown()) {
-            this.currentPiece.merge();
-            this.clearLines(); // Check for completed lines, clear if true
-            this.spawnPiece(); // Spawn new piece after one lands
-
-            console.log('Updated')
-
-            // Check if new piece can move
-            if (!this.currentPiece.canMove(0, 1)) {
-                document.getElementById('game-over').style.visibility = 'visible'
-                clearInterval(this.gameInterval);
-                console.log('Cleared?')
-                return;
-            }
-        }
-    }
-
     // Draw stacked pieces
     drawFixedPieces() {
         // Iterate over each row in the matrix
@@ -532,7 +448,82 @@ class Game {
             });
         });
     }
+    // -----------------------------------------------------------------
+    // Game State Methods
+    // Check if line is full
+    isLineFull(row) {
+        return this.gridMatrix[row].every(cell => cell !== 0);
+    }
+    // Clear a full line
+    clearLine(row) {
+        // Remove the full line
+        this.gridMatrix.splice(row, 1);
+        // Add a new empty line at the top
+        this.gridMatrix.unshift(new Array(this.grid.columns).fill(0));
+    }
+    // Clear lines and update score
+    clearLines() {
+        let linesCleared = 0;
 
+        // Detect and clear full lines
+        for (let row = this.grid.rows - 1; row >= 0; row--) {
+            if (this.isLineFull(row)) {
+                this.clearLine(row);
+                linesCleared++;
+                row++ // Recheck the current row after clearing
+            }
+        }
+
+        // Update score
+        if (linesCleared > 0) {
+            this.updateScore(linesCleared);
+        }
+    }
+    // Update game score
+    updateScore(linesCleared) {
+        const points = linesCleared * 100;
+        this.score += points;
+
+        const scoreElement = document.getElementById('score');
+        scoreElement.textContent = `Score: ${this.score}`;
+    }
+    // Update game state
+    update() {
+        // Handle piece movement, collision, stack
+        if (!this.currentPiece.moveDown()) {
+            this.currentPiece.merge();
+            this.clearLines(); // Check for completed lines, clear if true
+            this.spawnPiece(); // Spawn new piece after one lands
+
+            console.log('Updated')
+
+            // Check if new piece can move
+            if (!this.currentPiece.canMove(0, 1)) {
+                document.getElementById('game-over').style.visibility = 'visible'
+                clearInterval(this.gameInterval);
+                console.log('Cleared?')
+                return;
+            }
+        }
+    }
+    // Empty the matrix
+    emptyMatrix() {
+        for (let x = 0; x < this.grid.rows; x++) {
+            for (let y = 0; y < this.grid.columns; y++) {
+                this.gridMatrix[x][y] = 0;
+            }
+        }
+        console.log('Matrix Cleared');
+    }
+    // Empty the score
+    emptyScore() {
+        this.score = 0
+
+        const scoreElement = document.getElementById('score');
+        scoreElement.textContent = `Score: ${this.score}`;
+    }
+    // -----------------------------------------------------------------
+    // Game loop and initialization
     // Game loop
     gameLoop() {
         this.context.clearRect(0, 0, canvas.width, canvas.height);
@@ -540,19 +531,6 @@ class Game {
         this.update(); // update method to handle game state
         this.drawFixedPieces();
         this.currentPiece.draw();
-    }
-
-    // Restart game (without reload page)
-    restartGame() {
-        document.getElementById('restart-btn').addEventListener('click', () => {
-            clearInterval(this.gameInterval);
-            this.emptyScore();
-            this.currentPiece = null;
-            this.emptyMatrix()            
-
-            // Start game
-            this.startGame()
-        });
     }
 
     // Start the game
