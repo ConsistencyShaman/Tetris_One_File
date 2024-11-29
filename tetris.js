@@ -334,6 +334,9 @@ class Game {
             this.speedValue.textContent = this.currentSpeed;
             if (this.gameInterval) {
                 clearInterval(this.gameInterval);
+                this.emptyScore();
+                this.currentPiece = null;
+                this.emptyMatrix();
                 this.startGame();
             }
         })
